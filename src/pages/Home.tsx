@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Loader2, MapPin } from 'lucide-react'
 import { Map } from '../components/Map'
+import { NewPlaceDialog } from '../components/NewPlaceDialog'
 import { useAuthStore } from '../store/authStore'
 import { usePlaceStore } from '../store/placeStore'
 
@@ -61,9 +62,9 @@ function Home() {
       </section>)}
 
       {isAuthenticated && (<section className="mx-auto mt-12 max-w-6xl px-1">
-        <h2 className="text-2xl font-bold text-gray-900">Cúcuta</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Mi zona</h2>
         <p className="mt-1 text-sm text-gray-600">
-          Vista por defecto — puedes explorar la ciudad desde aquí.
+          Vista por defecto — puedes explorar tu zona desde aquí.
         </p>
         <div className="mt-4">
           <Map />
@@ -72,10 +73,15 @@ function Home() {
 
       {isAuthenticated && (
         <section className="mx-auto mt-12 max-w-6xl px-1">
-          <h2 className="text-2xl font-bold text-gray-900">Your latest places</h2>
-          <p className="mt-1 text-sm text-gray-600">
-            Last 10 you added (newest first).
-          </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">Your latest places</h2>
+              <p className="mt-1 text-sm text-gray-600">
+                Last 10 you added (newest first).
+              </p>
+            </div>
+            <NewPlaceDialog onCreated={() => void getPlaces({ limit: 10 })} />
+          </div>
 
           {isLoading && (
             <div className="mt-6 flex items-center gap-2 text-gray-600">

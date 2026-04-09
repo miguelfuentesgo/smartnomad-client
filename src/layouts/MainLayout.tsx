@@ -24,7 +24,7 @@ function MainLayout() {
 
           {/* Desktop nav links — hidden on mobile, visible from md (768px) up */}
           <nav className="hidden items-center gap-3  md:flex ">
-            <Link to="/" className="text-sm text-gray-600 hover:text-gray-900">
+            <Link to="/" className="text-sm">
               Home
             </Link>
           </nav>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
+import { Globe } from 'lucide-react'
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -20,7 +21,10 @@ function Login() {
   return (
     <main className="min-h-screen bg-brand flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md rounded-lg border-2 border-yellow-400 bg-white p-8 flex flex-col gap-6">
-
+          <Link to="/" className="w-full justify-center flex items-center gap-2 text-[#080409]">
+            <Globe size={28} className="text-gray-600" />
+            <span className="text-xl font-bold">SmartNomad</span>
+          </Link>
         <div className="flex flex-col gap-1">
           <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
           <p className="text-sm text-gray-500">Login to your SmartNomad account</p>
@@ -72,6 +76,12 @@ function Login() {
           Don't have an account?{' '}
           <Link to="/register" className="font-medium text-gray-900 underline hover:text-gray-600">
             Register
+          </Link>
+        </p>
+        <p className="text-center text-sm text-gray-500">
+          Go to{' '}
+          <Link to="/" className="font-medium text-gray-900 underline hover:text-gray-600">
+            Home
           </Link>
         </p>
 

@@ -16,4 +16,16 @@ apiClient.interceptors.request.use((config) => {
   return config
 })
 
+// Expired or invalid token: clear local session without calling logout API (avoids loops).
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      const { useAuthStore } = await import('../store/authStore')
+      useAuthStore.getState().clearSession()
+    }
+    return Promise.reject(error)
+  },
+)
+
 export default apiClient

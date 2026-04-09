@@ -11,9 +11,11 @@ interface AuthState {
 
   login: (payload: LoginPayload) => Promise<void>
   logout: () => Promise<void>
+  /** Clears tokens and user locally (no API call). Used when the server returns 401. */
+  clearSession: () => void
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   // Initial state — read token from localStorage so session persists on refresh
   token: localStorage.getItem('access_token'),
   isAuthenticated: !!localStorage.getItem('access_token'),
@@ -38,14 +40,20 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
+  clearSession: () => {
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
+    localStorage.removeItem('user')
+    set({ token: null, isAuthenticated: false, user: null })
+  },
+
   logout: async () => {
     try {
       await logoutRequest()
+    } catch {
+      // Server unreachable or session already invalid — still clear locally.
     } finally {
-      localStorage.removeItem('access_token')
-      localStorage.removeItem('refresh_token')
-      localStorage.removeItem('user')
-      set({ token: null, isAuthenticated: false })
+      get().clearSession()
     }
   },
 }))
